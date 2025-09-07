@@ -1,27 +1,21 @@
 - name: Install nginx and deploy custom index
   hosts: webservers
-  become: yes
-  tasks:
-    - name: Update apt cache
-      apt:
-        update_cache: yes
-        cache_valid_time: 3600
+  become: true
 
+  tasks:
     - name: Install nginx
       apt:
         name: nginx
         state: present
+        update_cache: yes
 
-    - name: Ensure nginx is started and enabled
+    - name: Ensure nginx is running
       service:
         name: nginx
         state: started
-        enabled: yes
+        enabled: true
 
     - name: Deploy custom index.html
       copy:
         dest: /var/www/html/index.html
-        content: "Hi Jenkins Ansible"
-        owner: root
-        group: root
-        mode: '0644'
+        content: "Hi Jenkins Ansible\n"
